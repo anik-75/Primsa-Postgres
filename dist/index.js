@@ -17,50 +17,13 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const app = (0, express_1.default)();
 const prisma = new client_1.PrismaClient({ log: ["info", "query"] });
+const blogs_1 = require("./controller/blogs");
+const middleware_1 = require("./utils/middleware");
 app.use(body_parser_1.default.json());
-app.get("/api/blogs", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const allBlogs = yield prisma.blog.findMany();
-        res.json({
-            allBlogs,
-        });
-    }
-    catch (err) {
-        res.status(500).json({ err });
-        console.log(err);
-        return;
-    }
-}));
-app.post("/api/blogs", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = req.body;
-    try {
-        const newBlog = yield prisma.blog.create({ data });
-        res.status(201).json({
-            message: "Create Successfully",
-            newBlog,
-        });
-    }
-    catch (err) {
-        console.log(err);
-    }
-}));
-app.delete("/api/blogs/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    try {
-        const deleteBlog = yield prisma.blog.delete({
-            where: {
-                id: Number(id),
-            },
-        });
-        res.status(200).json({
-            message: "delete Successfully",
-            deleteBlog,
-        });
-    }
-    catch (err) {
-        console.log(err);
-    }
-}));
+app.get("/api/blogs", blogs_1.getBlogs);
+app.post("/api/blogs", blogs_1.postBlogs);
+app.delete("/api/blogs/:id", blogs_1.deleteBlogs);
+app.use(middleware_1.errorMiddleware);
 app.listen(3000, () => {
     console.log("App running at 3000");
 });
