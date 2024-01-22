@@ -1,0 +1,2 @@
+INSERT INTO "public"."Blog" ("author","url","title","likes") VALUES ($1,$2,$3,$4) RETURNING "public"."Blog"."id", "public"."Blog"."author", "public"."Blog"."url", "public"."Blog"."title", "public"."Blog"."likes"
+INSERT INTO "public"."Blog" ("author","url","title","likes") VALUES ($1,$2,$3,$4) RETURNING "public"."Blog"."id", "public"."Blog"."author", "public"."Blog"."url", "public"."Blog"."title", "public"."Blog"."likes"
