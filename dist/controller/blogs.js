@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBlogs = exports.postBlogs = exports.getBlogs = void 0;
+exports.updateBlogs = exports.deleteBlogs = exports.postBlogs = exports.getBlogs = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient({
     log: ["info", "query"],
@@ -40,6 +40,26 @@ const postBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.postBlogs = postBlogs;
+const updateBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    const id = req.params.id;
+    try {
+        const updateBlog = yield prisma.blog.update({
+            where: {
+                id: Number(id),
+            },
+            data: Object.assign({}, data),
+        });
+        res.status(201).json({
+            message: "updated Successfully",
+            updateBlog,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.updateBlogs = updateBlogs;
 const deleteBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     try {

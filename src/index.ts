@@ -3,7 +3,12 @@ import express from "express";
 import bodyParser from "body-parser";
 const app = express();
 const prisma = new PrismaClient({ log: ["info", "query"] });
-import { deleteBlogs, getBlogs, postBlogs } from "./controller/blogs";
+import {
+  deleteBlogs,
+  getBlogs,
+  postBlogs,
+  updateBlogs,
+} from "./controller/blogs";
 import { errorMiddleware } from "./utils/middleware";
 
 app.use(bodyParser.json());
@@ -12,6 +17,7 @@ app.get("/api/blogs", getBlogs);
 
 app.post("/api/blogs", postBlogs);
 
+app.put("/api/blogs/:id", updateBlogs);
 app.delete("/api/blogs/:id", deleteBlogs);
 
 app.use(errorMiddleware);

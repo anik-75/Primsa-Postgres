@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Blog, PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 const prisma = new PrismaClient({
   log: ["info", "query"],
@@ -26,6 +26,28 @@ const postBlogs = async (req: Request, res: Response, next: NextFunction) => {
     next(err);
   }
 };
+
+const updateBlogs = async (req: Request, res: Response, next: NextFunction) => {
+  const data = req.body;
+  const id = req.params.id;
+  try {
+    const updateBlog = await prisma.blog.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        ...data,
+      },
+    });
+    res.status(201).json({
+      message: "updated Successfully",
+      updateBlog,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const deleteBlogs = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
   try {
@@ -42,4 +64,4 @@ const deleteBlogs = async (req: Request, res: Response, next: NextFunction) => {
     next(err);
   }
 };
-export { getBlogs, postBlogs, deleteBlogs };
+export { getBlogs, postBlogs, deleteBlogs, updateBlogs };

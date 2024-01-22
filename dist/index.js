@@ -22,6 +22,7 @@ const middleware_1 = require("./utils/middleware");
 app.use(body_parser_1.default.json());
 app.get("/api/blogs", blogs_1.getBlogs);
 app.post("/api/blogs", blogs_1.postBlogs);
+app.put("/api/blogs/:id", blogs_1.updateBlogs);
 app.delete("/api/blogs/:id", blogs_1.deleteBlogs);
 app.use(middleware_1.errorMiddleware);
 app.listen(3000, () => {
