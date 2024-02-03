@@ -15,6 +15,7 @@ export const getUsers = async (
       select: {
         blogs: true,
         name: true,
+        
         username: true,
       },
     });

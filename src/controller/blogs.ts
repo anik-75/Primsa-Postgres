@@ -3,12 +3,16 @@ import { prisma } from "../index";
 
 const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.cookies.UserId;
+  const query = req.query;
   try {
     const allBlogs = await prisma.blog.findMany({
-      where: { authorId: Number(userId) },
-      include:{
-        author:true,
-      }
+      where: {
+        authorId: Number(userId),
+        ...(query.search ? { title: { contains: String(query.search) } } : {}),
+      },
+      include: {
+        author: true,
+      },
     });
     res.json({
       allBlogs,

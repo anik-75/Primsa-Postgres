@@ -13,12 +13,13 @@ exports.updateBlogs = exports.deleteBlogs = exports.postBlogs = exports.getBlogs
 const index_1 = require("../index");
 const getBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.cookies.UserId;
+    const query = req.query;
     try {
         const allBlogs = yield index_1.prisma.blog.findMany({
-            where: { authorId: Number(userId) },
+            where: Object.assign({ authorId: Number(userId) }, (query.search ? { title: { contains: String(query.search) } } : {})),
             include: {
                 author: true,
-            }
+            },
         });
         res.json({
             allBlogs,
