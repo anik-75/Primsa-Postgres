@@ -36,6 +36,9 @@ const getBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                         : [],
                 }
                 : {})),
+            orderBy: {
+                likes: "desc",
+            },
             include: {
                 author: true,
             },

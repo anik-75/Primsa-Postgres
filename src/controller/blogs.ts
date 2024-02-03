@@ -30,6 +30,9 @@ const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
             }
           : {}),
       },
+      orderBy: {
+        likes: "desc",
+      },
       include: {
         author: true,
       },
