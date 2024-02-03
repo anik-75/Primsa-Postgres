@@ -10,16 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateBlogs = exports.deleteBlogs = exports.postBlogs = exports.getBlogs = void 0;
-const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient({
-    log: ["info", "query"],
-});
+const index_1 = require("../index");
 const getBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allBlogs = yield prisma.blog.findMany();
+        const allBlogs = yield index_1.prisma.blog.findMany();
         res.json({
             allBlogs,
         });
+        return;
     }
     catch (err) {
         next(err);
@@ -29,11 +27,12 @@ exports.getBlogs = getBlogs;
 const postBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     try {
-        const newBlog = yield prisma.blog.create({ data });
+        const newBlog = yield index_1.prisma.blog.create({ data });
         res.status(201).json({
             message: "Create Successfully",
             newBlog,
         });
+        return;
     }
     catch (err) {
         next(err);
@@ -44,7 +43,7 @@ const updateBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     const data = req.body;
     const id = req.params.id;
     try {
-        const updateBlog = yield prisma.blog.update({
+        const updateBlog = yield index_1.prisma.blog.update({
             where: {
                 id: Number(id),
             },
@@ -54,6 +53,7 @@ const updateBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             message: "updated Successfully",
             updateBlog,
         });
+        return;
     }
     catch (err) {
         next(err);
@@ -63,7 +63,7 @@ exports.updateBlogs = updateBlogs;
 const deleteBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     try {
-        const deleteBlog = yield prisma.blog.delete({
+        const deleteBlog = yield index_1.prisma.blog.delete({
             where: {
                 id: Number(id),
             },
@@ -72,6 +72,7 @@ const deleteBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             message: "delete Successfully",
             deleteBlog,
         });
+        return;
     }
     catch (err) {
         next(err);

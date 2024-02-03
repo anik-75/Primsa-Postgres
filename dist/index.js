@@ -12,22 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.prisma = void 0;
 const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const app = (0, express_1.default)();
-const prisma = new client_1.PrismaClient({ log: ["info", "query"] });
-const blogs_1 = require("./controller/blogs");
+exports.prisma = new client_1.PrismaClient({ log: ["info", "query"] });
 const middleware_1 = require("./utils/middleware");
+const blogRouter_1 = __importDefault(require("./router/blogRouter"));
+const userRouter_1 = __importDefault(require("./router/userRouter"));
 app.use(body_parser_1.default.json());
-app.get("/api/blogs", blogs_1.getBlogs);
-app.post("/api/blogs", blogs_1.postBlogs);
-app.put("/api/blogs/:id", blogs_1.updateBlogs);
-app.delete("/api/blogs/:id", blogs_1.deleteBlogs);
+app.use("/api/blogs", blogRouter_1.default);
+app.use("/api/users", userRouter_1.default);
 app.use(middleware_1.errorMiddleware);
 app.listen(3000, () => {
     console.log("App running at 3000");
 });
 process.on("beforeExit", () => __awaiter(void 0, void 0, void 0, function* () {
-    yield prisma.$disconnect();
+    yield exports.prisma.$disconnect();
 }));

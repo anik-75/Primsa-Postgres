@@ -1,8 +1,5 @@
-import { Blog, PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
-const prisma = new PrismaClient({
-  log: ["info", "query"],
-});
+import { prisma } from "../index";
 
 const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -10,6 +7,7 @@ const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
     res.json({
       allBlogs,
     });
+    return;
   } catch (err) {
     next(err);
   }
@@ -22,6 +20,7 @@ const postBlogs = async (req: Request, res: Response, next: NextFunction) => {
       message: "Create Successfully",
       newBlog,
     });
+    return;
   } catch (err) {
     next(err);
   }
@@ -43,6 +42,7 @@ const updateBlogs = async (req: Request, res: Response, next: NextFunction) => {
       message: "updated Successfully",
       updateBlog,
     });
+    return;
   } catch (err) {
     next(err);
   }
@@ -60,6 +60,7 @@ const deleteBlogs = async (req: Request, res: Response, next: NextFunction) => {
       message: "delete Successfully",
       deleteBlog,
     });
+    return;
   } catch (err) {
     next(err);
   }
