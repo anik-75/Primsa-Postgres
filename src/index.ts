@@ -17,11 +17,13 @@ export const prisma = new PrismaClient({ log: ["info", "query"] })
 import { errorMiddleware } from "./utils/middleware";
 import blogRouter from "./router/blogRouter";
 import userRouter from "./router/userRouter";
+import { login } from "./controller/login";
 
 const app = express();
 app.use(bodyParser.json());
 app.use("/api/blogs", blogRouter);
 app.use("/api/users", userRouter);
+app.post("/api/login", login);
 
 app.use(errorMiddleware);
 

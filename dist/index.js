@@ -17,7 +17,9 @@ const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const userSchema_1 = require("./schema/userSchema");
-exports.prisma = new client_1.PrismaClient({ log: ["info", "query"] }).$extends({
+exports.prisma = new client_1.PrismaClient({ log: ["info", "query"] })
+    //  Email validation
+    .$extends({
     query: {
         user: {
             create({ args, query }) {
@@ -30,10 +32,12 @@ exports.prisma = new client_1.PrismaClient({ log: ["info", "query"] }).$extends(
 const middleware_1 = require("./utils/middleware");
 const blogRouter_1 = __importDefault(require("./router/blogRouter"));
 const userRouter_1 = __importDefault(require("./router/userRouter"));
+const login_1 = require("./controller/login");
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use("/api/blogs", blogRouter_1.default);
 app.use("/api/users", userRouter_1.default);
+app.post("/api/login", login_1.login);
 app.use(middleware_1.errorMiddleware);
 app.listen(3000, () => {
     console.log("App running at 3000");

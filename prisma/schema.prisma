@@ -22,7 +22,7 @@ model Blog{
 model User{
   id Int @id@default(autoincrement())
   name String
-  username String
+  username String 
   password String @default("123456")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
