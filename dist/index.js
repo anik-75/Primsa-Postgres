@@ -16,6 +16,7 @@ exports.prisma = void 0;
 const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const userSchema_1 = require("./schema/userSchema");
 exports.prisma = new client_1.PrismaClient({ log: ["info", "query"] })
     //  Email validation
@@ -35,6 +36,7 @@ const userRouter_1 = __importDefault(require("./router/userRouter"));
 const login_1 = require("./controller/login");
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
+app.use((0, cookie_parser_1.default)());
 app.use("/api/blogs", blogRouter_1.default);
 app.use("/api/users", userRouter_1.default);
 app.post("/api/login", login_1.login);

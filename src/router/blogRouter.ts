@@ -6,10 +6,11 @@ import {
   postBlogs,
   updateBlogs,
 } from "../controller/blogs";
+import {  isAuthorized } from "../utils/middleware";
 
 blogRouter.get("/", getBlogs);
 blogRouter.post("/", postBlogs);
 blogRouter.put("/:id", updateBlogs);
-blogRouter.delete("/:id", deleteBlogs);
+blogRouter.delete("/:id", isAuthorized, deleteBlogs);
 
 export default blogRouter;

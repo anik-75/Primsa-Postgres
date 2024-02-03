@@ -14,8 +14,13 @@ const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
 };
 const postBlogs = async (req: Request, res: Response, next: NextFunction) => {
   const data = req.body;
+  const authorId = req.cookies.UserId;
+  console.log(data);
+  console.log(authorId);
   try {
-    const newBlog = await prisma.blog.create({ data });
+    const newBlog = await prisma.blog.create({
+      data: { ...data, authorId: +authorId },
+    });
     res.status(201).json({
       message: "Create Successfully",
       newBlog,

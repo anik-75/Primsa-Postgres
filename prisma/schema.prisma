@@ -13,7 +13,8 @@ datasource db {
 
 model Blog{
   id Int @id@default(autoincrement())
-  author String
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
   url String
   title String
   likes Int @default(0)
@@ -22,8 +23,9 @@ model Blog{
 model User{
   id Int @id@default(autoincrement())
   name String
-  username String 
+  username String @unique
   password String @default("123456")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  blogs Blog[]
 }

@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import express from "express";
 import bodyParser from "body-parser";
+import cookieParser from 'cookie-parser'
 import { UserInput } from "./schema/userSchema";
 export const prisma = new PrismaClient({ log: ["info", "query"] })
   //  Email validation
@@ -21,6 +22,8 @@ import { login } from "./controller/login";
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cookieParser());
+
 app.use("/api/blogs", blogRouter);
 app.use("/api/users", userRouter);
 app.post("/api/login", login);
