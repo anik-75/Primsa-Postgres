@@ -42,8 +42,6 @@ const addUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
 exports.addUser = addUser;
 const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.body;
-    console.log(id);
-    console.log(typeof id);
     const username = req.params.username;
     try {
         const updatedUser = yield index_1.prisma.user.update({
@@ -54,7 +52,7 @@ const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
                 username: username,
             },
         });
-        res.status(200).json({
+        res.status(204).json({
             updatedUser,
         });
         return;
