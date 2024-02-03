@@ -6,8 +6,18 @@ export const getUsers = async (
   res: Response,
   next: NextFunction
 ) => {
+  const userId = req.cookies.UserId;
   try {
-    const allUsers = await prisma.user.findMany();
+    const allUsers = await prisma.user.findUnique({
+      where: {
+        id: Number(userId),
+      },
+      select: {
+        blogs: true,
+        name: true,
+        username: true,
+      },
+    });
     res.status(200).json({
       allUsers,
     });

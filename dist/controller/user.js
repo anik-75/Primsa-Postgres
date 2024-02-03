@@ -12,8 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = exports.addUser = exports.getUsers = void 0;
 const index_1 = require("../index");
 const getUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.cookies.UserId;
     try {
-        const allUsers = yield index_1.prisma.user.findMany();
+        const allUsers = yield index_1.prisma.user.findUnique({
+            where: {
+                id: Number(userId),
+            },
+            select: {
+                blogs: true,
+                name: true,
+                username: true,
+            },
+        });
         res.status(200).json({
             allUsers,
         });

@@ -2,8 +2,14 @@ import { NextFunction, Request, Response } from "express";
 import { prisma } from "../index";
 
 const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
+  const userId = req.cookies.UserId;
   try {
-    const allBlogs = await prisma.blog.findMany();
+    const allBlogs = await prisma.blog.findMany({
+      where: { authorId: Number(userId) },
+      include:{
+        author:true,
+      }
+    });
     res.json({
       allBlogs,
     });

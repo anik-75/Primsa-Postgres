@@ -33,7 +33,6 @@ const isAuthorized = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
     try {
         const decode = jsonwebtoken_1.default.verify(token, "SECRET");
-        console.log(decode);
         let userId;
         if (typeof decode === "object" && decode !== null && "id" in decode) {
             userId = decode.id;

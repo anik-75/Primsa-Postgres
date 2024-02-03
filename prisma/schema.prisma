@@ -20,7 +20,7 @@ model Blog{
   likes Int @default(0)
 }
 
-model User{
+model User{ 
   id Int @id@default(autoincrement())
   name String
   username String @unique
