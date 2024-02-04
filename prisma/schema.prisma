@@ -21,6 +21,7 @@ model Blog{
   year Int @default(dbgenerated("EXTRACT (YEAR FROM CURRENT_DATE)"))
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  readByUserList UserReadingList[]
 }
 
 model User{
@@ -31,4 +32,15 @@ model User{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   blogs Blog[]
+  readings UserReadingList[]
+}
+
+model UserReadingList{
+  blogId Int
+  blog Blog @relation(fields: [blogId], references: [id])
+  userId Int
+  user User @relation(fields: [userId],references: [id])
+  read Boolean @default(false)
+
+  @@id([blogId,userId])
 }
