@@ -20,6 +20,7 @@ import blogRouter from "./router/blogRouter";
 import userRouter from "./router/userRouter";
 import { login } from "./controller/login";
 import { getAuthorsInfo } from "./controller/authorInfo";
+import readingListRouter from "./router/readingListRouter";
 
 const app = express();
 app.use(bodyParser.json());
@@ -27,21 +28,11 @@ app.use(cookieParser());
 
 app.use("/api/blogs", blogRouter);
 app.use("/api/users", userRouter);
+app.use("/api/readinglists", readingListRouter);
+
 app.post("/api/login", login);
 app.get("/api/authors", getAuthorsInfo);
 
-app.post("/api/readinglists", async (req, res, next) => {
-  const data = req.body;
-  console.log(data);
-  try {
-    const readingList = await prisma.userReadingList.create({
-      data: data,
-    });
-    res.status(201).json(readingList);
-  } catch (error) {
-    next(error);
-  }
-});
 
 app.use(errorMiddleware);
 

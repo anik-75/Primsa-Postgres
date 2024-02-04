@@ -35,26 +35,15 @@ const blogRouter_1 = __importDefault(require("./router/blogRouter"));
 const userRouter_1 = __importDefault(require("./router/userRouter"));
 const login_1 = require("./controller/login");
 const authorInfo_1 = require("./controller/authorInfo");
+const readingListRouter_1 = __importDefault(require("./router/readingListRouter"));
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use("/api/blogs", blogRouter_1.default);
 app.use("/api/users", userRouter_1.default);
+app.use("/api/readinglists", readingListRouter_1.default);
 app.post("/api/login", login_1.login);
 app.get("/api/authors", authorInfo_1.getAuthorsInfo);
-app.post("/api/readinglists", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = req.body;
-    console.log(data);
-    try {
-        const readingList = yield exports.prisma.userReadingList.create({
-            data: data,
-        });
-        res.status(201).json(readingList);
-    }
-    catch (error) {
-        next(error);
-    }
-}));
 app.use(middleware_1.errorMiddleware);
 app.listen(3000, () => {
     console.log("App running at 3000");
