@@ -78,6 +78,8 @@ export const getUserInfo = async (
   next: NextFunction
 ) => {
   const userId = req.params.userId;
+  const query = req.query;
+  console.log(query);
   try {
     const userInfo = await prisma.user.findUnique({
       where: {
@@ -85,6 +87,13 @@ export const getUserInfo = async (
       },
       include: {
         readings: {
+          ...(query?.read !== undefined
+            ? {
+                where: {
+                  read: Boolean(query.read === "true"),
+                },
+              }
+            : {}),
           select: {
             blog: true,
             read: true,

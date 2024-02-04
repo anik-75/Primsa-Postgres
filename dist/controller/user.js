@@ -74,18 +74,24 @@ const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 exports.updateUser = updateUser;
 const getUserInfo = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
+    const query = req.query;
+    console.log(query);
     try {
         const userInfo = yield index_1.prisma.user.findUnique({
             where: {
                 id: Number(userId),
             },
             include: {
-                readings: {
-                    select: {
+                readings: Object.assign(Object.assign({}, ((query === null || query === void 0 ? void 0 : query.read) !== undefined
+                    ? {
+                        where: {
+                            read: Boolean(query.read === "true"),
+                        },
+                    }
+                    : {})), { select: {
                         blog: true,
                         read: true,
-                    },
-                },
+                    } }),
             },
         });
         res.status(200).json(userInfo);
