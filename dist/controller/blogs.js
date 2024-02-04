@@ -56,8 +56,8 @@ exports.getBlogs = getBlogs;
 const postBlogs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const authorId = req.cookies.UserId;
-    console.log(data);
-    console.log(authorId);
+    // console.log(data);
+    // console.log(authorId);
     try {
         const newBlog = yield index_1.prisma.blog.create({
             data: Object.assign(Object.assign({}, data), { authorId: +authorId }),

@@ -48,8 +48,8 @@ const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
 const postBlogs = async (req: Request, res: Response, next: NextFunction) => {
   const data = req.body;
   const authorId = req.cookies.UserId;
-  console.log(data);
-  console.log(authorId);
+  // console.log(data);
+  // console.log(authorId);
   try {
     const newBlog = await prisma.blog.create({
       data: { ...data, authorId: +authorId },
