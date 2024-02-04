@@ -42,6 +42,19 @@ app.use("/api/blogs", blogRouter_1.default);
 app.use("/api/users", userRouter_1.default);
 app.post("/api/login", login_1.login);
 app.get("/api/authors", authorInfo_1.getAuthorsInfo);
+app.post("/api/readinglists", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    console.log(data);
+    try {
+        const readingList = yield exports.prisma.userReadingList.create({
+            data: data,
+        });
+        res.status(201).json(readingList);
+    }
+    catch (error) {
+        next(error);
+    }
+}));
 app.use(middleware_1.errorMiddleware);
 app.listen(3000, () => {
     console.log("App running at 3000");

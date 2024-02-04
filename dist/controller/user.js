@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.addUser = exports.getUsers = void 0;
+exports.getUserInfo = exports.updateUser = exports.addUser = exports.getUsers = void 0;
 const index_1 = require("../index");
 const getUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.cookies.UserId;
@@ -72,3 +72,26 @@ const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.updateUser = updateUser;
+const getUserInfo = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.params.userId;
+    try {
+        const userInfo = yield index_1.prisma.user.findUnique({
+            where: {
+                id: Number(userId),
+            },
+            include: {
+                readings: {
+                    select: {
+                        blog: true,
+                        read: true,
+                    },
+                },
+            },
+        });
+        res.status(200).json(userInfo);
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.getUserInfo = getUserInfo;

@@ -30,6 +30,19 @@ app.use("/api/users", userRouter);
 app.post("/api/login", login);
 app.get("/api/authors", getAuthorsInfo);
 
+app.post("/api/readinglists", async (req, res, next) => {
+  const data = req.body;
+  console.log(data);
+  try {
+    const readingList = await prisma.userReadingList.create({
+      data: data,
+    });
+    res.status(201).json(readingList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.use(errorMiddleware);
 
 app.listen(3000, () => {

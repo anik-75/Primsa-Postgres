@@ -71,3 +71,29 @@ export const updateUser = async (
     next(error);
   }
 };
+
+export const getUserInfo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.params.userId;
+  try {
+    const userInfo = await prisma.user.findUnique({
+      where: {
+        id: Number(userId),
+      },
+      include: {
+        readings: {
+          select: {
+            blog: true,
+            read: true,
+          },
+        },
+      },
+    });
+    res.status(200).json(userInfo);
+  } catch (error) {
+    next(error);
+  }
+};
